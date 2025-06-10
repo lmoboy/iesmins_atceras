@@ -1,7 +1,7 @@
 import { Debug } from '@/components/debug';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 
 import { useEffect, useState } from 'react';
 
@@ -13,6 +13,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Game() {
+    const auth = usePage().props.auth;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const [startTime, setStartTime] = useState(new Date(Date.now()));
     const [playing, setPlaying] = useState(false);
     const [comparing, setComparing] = useState(false);
@@ -127,7 +129,6 @@ export default function Game() {
 
     const declareWin = () => {
         if (errors > 25) {
-            setTimeElapsed(Math.round((Date.now() - startTime.getTime()) / 1000));
             setPlaying(false);
             setComparing(false);
             setGuessed([]);
@@ -137,13 +138,26 @@ export default function Game() {
         }
 
         if (guessed.length === cards.length) {
-            setTimeElapsed(Math.round((Date.now() - startTime.getTime()) / 1000));
             setPlaying(false);
             setComparing(false);
             setGuessed([]);
             setCompared([-1, -1]);
             setErrors(0);
             setStatus('YOU WON!!!!');
+            fetch(
+                route('leaderboard.store', {
+                    name: auth.user.name,
+                    mode: 'monster',
+                    score: timeElapsed,
+                }),
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken, // Include the CSRF token here
+                    },
+                },
+            );
         }
     };
 
@@ -152,6 +166,7 @@ export default function Game() {
     }, [guessed]);
 
     const compare = (c1: number, c2: number) => {
+        setTimeElapsed(Math.round((Date.now() - startTime.getTime()) / 1000));
         setTimeout(() => {
             setComparing(false);
             setCompared([-1, -1]);
@@ -165,6 +180,7 @@ export default function Game() {
     };
 
     const shuffle = () => {
+        setPlaying(true);
         setStatus('');
         setTimeElapsed(0);
         setStartTime(new Date(Date.now()));
@@ -175,18 +191,15 @@ export default function Game() {
         }
         setCards(shuffledCards);
     };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Game" />
             <Debug vars={{ errors }} />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                {playing ? (
-                    ''
-                ) : (
-                    <div>
-                        {status} ALL WITHIN {timeElapsed} SECONDS!!!!
-                    </div>
-                )}
+                {status && <div className="text-center text-2xl font-bold">{status}</div>}
+                {status && <div className="text-center text-2xl font-bold">Withing {timeElapsed} seconds</div>}
+
                 <div className="relative flex min-h-[100vh] flex-1 flex-col items-center justify-center overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                     {playing ? (
                         <>

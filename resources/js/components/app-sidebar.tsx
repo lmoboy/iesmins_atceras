@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, Gamepad2 } from 'lucide-react';
+import { AlignEndHorizontal, BookOpen, Folder, Gamepad2 } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -12,6 +12,11 @@ const mainNavItems: NavItem[] = [
         title: 'Card guess',
         href: '/game/easy',
         icon: Gamepad2,
+    },
+    {
+        title: 'Card leaderboard',
+        href: '/leaderboard',
+        icon: AlignEndHorizontal,
     },
 ];
 

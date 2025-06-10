@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\leadearboardsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -7,7 +8,10 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
+    Route::get('game', function () {
+        return Inertia::render('easy');
+    })->name('game');
     Route::get('game/easy', function () {
         return Inertia::render('easy');
     })->name('game.easy');
@@ -20,6 +24,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('game/monster', function () {
         return Inertia::render('monster');
     })->name('game.monster');
+    Route::get('leaderboard', function () {
+        return Inertia::render('leaderboard');
+    })->name('leaderboard');
+
+
+
+
+
+    Route::get('leaderboard/{mode}', [leadearboardsController::class, 'index'])->name('leaderboard.index');
+    Route::post('leaderboard/store', [leadearboardsController::class, 'store'])->name('leaderboard.store');
+
 
 });
 
