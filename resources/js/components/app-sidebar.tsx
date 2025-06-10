@@ -10,7 +10,7 @@ import AppLogo from './app-logo';
 const mainNavItems: NavItem[] = [
     {
         title: 'Card guess',
-        href: '/game',
+        href: '/game/easy',
         icon: Gamepad2,
     },
 ];
@@ -35,7 +35,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/game" prefetch>
+                            <Link href="/game/easy" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
