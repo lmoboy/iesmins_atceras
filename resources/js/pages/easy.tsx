@@ -22,10 +22,11 @@ export default function Game() {
     const [timeElapsed, setTimeElapsed] = useState(0);
     const [status, setStatus] = useState('');
     const [cards, setCards] = useState([
-        { name: 'Card 1', color: 'red' },
-        { name: 'Card 2', color: 'blue' },
-        { name: 'Card 1', color: 'red' },
-        { name: 'Card 2', color: 'blue' },
+        { name: '&#128512;', color: 'red' },
+        { name: '&#128513;', color: 'blue' },
+
+        { name: '&#128512;', color: 'red' },
+        { name: '&#128513;', color: 'blue' },
     ]);
 
     const declareWin = () => {
@@ -83,6 +84,7 @@ export default function Game() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Game" />
             <Debug vars={{ errors }} />
+
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 {playing ? (
                     ''
@@ -119,9 +121,13 @@ export default function Game() {
                                             style={{ backgroundImage: `url(/images/${card.color}.png)` }}
                                         />
                                         <div className="relative z-10 text-3xl font-bold">
-                                            {(comparing && index === compared[0]) || (comparing && index === compared[1]) || guessed.includes(index)
-                                                ? card.name
-                                                : '?'}
+                                            {(comparing && index === compared[0]) ||
+                                            (comparing && index === compared[1]) ||
+                                            guessed.includes(index) ? (
+                                                <span dangerouslySetInnerHTML={{ __html: card.name }} />
+                                            ) : (
+                                                '?'
+                                            )}
                                         </div>
                                     </div>
                                 ))}

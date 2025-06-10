@@ -22,43 +22,43 @@ export default function Game() {
     const [timeElapsed, setTimeElapsed] = useState(0);
     const [status, setStatus] = useState('');
     const [cards, setCards] = useState([
-        { name: 'Card 1', color: 'red' },
-        { name: 'Card 2', color: 'blue' },
-        { name: 'Card 3', color: 'yellow' },
-        { name: 'Card 4', color: 'green' },
-        { name: 'Card 5', color: 'cyan' },
-        { name: 'Card 6', color: 'pink' },
-        { name: 'Card 7', color: 'purple' },
-        { name: 'Card 8', color: 'white' },
-        { name: 'Card 9', color: 'teal' },
-        { name: 'Card 10', color: 'beige' },
-        { name: 'Card 11', color: 'brown' },
-        { name: 'Card 12', color: 'orange' },
-        { name: 'Card 13', color: 'barbie pink' },
-        { name: 'Card 14', color: 'lilac' },
-        { name: 'Card 15', color: 'blood red' },
-        { name: 'Card 16', color: 'magenta' },
-        { name: 'Card 17', color: 'gold' },
-        { name: 'Card 18', color: 'silver' },
+        { name: '&#128512;', color: 'red' },
+        { name: '&#128513;', color: 'blue' },
+        { name: '&#128514;', color: 'yellow' },
+        { name: '&#128515;', color: 'green' },
+        { name: '&#128516;', color: 'cyan' },
+        { name: '&#128517;', color: 'pink' },
+        { name: '&#128518;', color: 'purple' },
+        { name: '&#128519;', color: 'white' },
+        { name: '&#128520;', color: 'teal' },
+        { name: '&#128521;', color: 'beige' },
+        { name: '&#128522;', color: 'brown' },
+        { name: '&#128523;', color: 'orange' },
+        { name: '&#128524;', color: 'barbie pink' },
+        { name: '&#128525;', color: 'lilac' },
+        { name: '&#128526;', color: 'blood red' },
+        { name: '&#128527;', color: 'magenta' },
+        { name: '&#128528;', color: 'gold' },
+        { name: '&#128529;', color: 'silver' },
 
-        { name: 'Card 1', color: 'red' },
-        { name: 'Card 2', color: 'blue' },
-        { name: 'Card 3', color: 'yellow' },
-        { name: 'Card 4', color: 'green' },
-        { name: 'Card 5', color: 'cyan' },
-        { name: 'Card 6', color: 'pink' },
-        { name: 'Card 7', color: 'purple' },
-        { name: 'Card 8', color: 'white' },
-        { name: 'Card 9', color: 'teal' },
-        { name: 'Card 10', color: 'beige' },
-        { name: 'Card 11', color: 'brown' },
-        { name: 'Card 12', color: 'orange' },
-        { name: 'Card 13', color: 'barbie pink' },
-        { name: 'Card 14', color: 'lilac' },
-        { name: 'Card 15', color: 'blood red' },
-        { name: 'Card 16', color: 'magenta' },
-        { name: 'Card 17', color: 'gold' },
-        { name: 'Card 18', color: 'silver' },
+        { name: '&#128512;', color: 'red' },
+        { name: '&#128513;', color: 'blue' },
+        { name: '&#128514;', color: 'yellow' },
+        { name: '&#128515;', color: 'green' },
+        { name: '&#128516;', color: 'cyan' },
+        { name: '&#128517;', color: 'pink' },
+        { name: '&#128518;', color: 'purple' },
+        { name: '&#128519;', color: 'white' },
+        { name: '&#128520;', color: 'teal' },
+        { name: '&#128521;', color: 'beige' },
+        { name: '&#128522;', color: 'brown' },
+        { name: '&#128523;', color: 'orange' },
+        { name: '&#128524;', color: 'barbie pink' },
+        { name: '&#128525;', color: 'lilac' },
+        { name: '&#128526;', color: 'blood red' },
+        { name: '&#128527;', color: 'magenta' },
+        { name: '&#128528;', color: 'gold' },
+        { name: '&#128529;', color: 'silver' },
     ]);
 
     const declareWin = () => {
@@ -152,9 +152,13 @@ export default function Game() {
                                             style={{ backgroundImage: `url(/images/${card.color}.png)` }}
                                         />
                                         <div className="relative z-10 text-3xl font-bold">
-                                            {(comparing && index === compared[0]) || (comparing && index === compared[1]) || guessed.includes(index)
-                                                ? card.name
-                                                : '?'}
+                                            {(comparing && index === compared[0]) ||
+                                            (comparing && index === compared[1]) ||
+                                            guessed.includes(index) ? (
+                                                <span dangerouslySetInnerHTML={{ __html: card.name }} />
+                                            ) : (
+                                                '?'
+                                            )}
                                         </div>
                                     </div>
                                 ))}
