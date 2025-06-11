@@ -9,13 +9,26 @@ import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Card guess',
+        title: 'Game',
         href: '/game/easy',
         icon: Gamepad2,
     },
     {
-        title: 'Card leaderboard',
-        href: '/leaderboard',
+        title: 'Leaderboard',
+        href: '/game/leaderboard',
+        icon: AlignEndHorizontal,
+    },
+];
+
+const typingNavItems: NavItem[] = [
+    {
+        title: 'Game',
+        href: '/typing',
+        icon: Gamepad2,
+    },
+    {
+        title: 'Leaderboard',
+        href: '/typing/leaderboard',
         icon: AlignEndHorizontal,
     },
 ];
@@ -49,7 +62,8 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={mainNavItems} label="Card game" />
+                <NavMain items={typingNavItems} label="Typing game" />
             </SidebarContent>
 
             <SidebarFooter>

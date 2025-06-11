@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'hard',
-        href: '/game/hard',
+        title: 'leaderboard',
+        href: '/game/leaderboard',
     },
 ];
 
@@ -41,7 +41,7 @@ export default function Leaderboard() {
                             </select>
                         </div>
                         <ul className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
-                            {leaderboard.map((user, index) => (
+                            {leaderboard.map((user: { name: string; mode: string; score: string }, index: number) => (
                                 <li key={index} className="flex items-center justify-between py-4">
                                     <span className="flex flex-row text-lg font-bold">
                                         {index === 0 && <Crown className="text-white" />}

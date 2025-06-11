@@ -13,13 +13,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Game() {
-    const auth = usePage().props.auth;
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const auth: any = usePage().props.auth;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
     const [startTime, setStartTime] = useState(new Date(Date.now()));
     const [playing, setPlaying] = useState(false);
     const [comparing, setComparing] = useState(false);
-    const [guessed, setGuessed] = useState([]);
+    const [guessed, setGuessed] = useState<Array<number>>([]);
     const [errors, setErrors] = useState(0);
     const [compared, setCompared] = useState([-1, -1]);
     const [timeElapsed, setTimeElapsed] = useState(0);
@@ -59,7 +59,7 @@ export default function Game() {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken, // Include the CSRF token here
+                        'X-CSRF-TOKEN': csrfToken ?? '',
                     },
                 },
             );
@@ -100,7 +100,7 @@ export default function Game() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Game" />
-            <Debug vars={{ errors }} />
+            <Debug vars={{ auth }} />
 
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 {status && <div className="text-center text-2xl font-bold">{status}</div>}

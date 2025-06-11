@@ -2,22 +2,24 @@ import { Debug } from '@/components/debug';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
+
 import { useEffect, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'hard',
-        href: '/game/hard',
+        title: 'medium',
+        href: '/game/medium',
     },
 ];
 
 export default function Game() {
-    const auth = usePage().props.auth;
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const auth: any = usePage().props.auth;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
     const [startTime, setStartTime] = useState(new Date(Date.now()));
     const [playing, setPlaying] = useState(false);
     const [comparing, setComparing] = useState(false);
-    const [guessed, setGuessed] = useState([]);
+    const [guessed, setGuessed] = useState<Array<number>>([]);
     const [errors, setErrors] = useState(0);
     const [compared, setCompared] = useState([-1, -1]);
     const [timeElapsed, setTimeElapsed] = useState(0);
@@ -31,16 +33,6 @@ export default function Game() {
         { name: '&#128517;', color: 'pink' },
         { name: '&#128518;', color: 'purple' },
         { name: '&#128519;', color: 'white' },
-        { name: '&#128520;', color: 'teal' },
-        { name: '&#128521;', color: 'beige' },
-        { name: '&#128522;', color: 'brown' },
-        { name: '&#128523;', color: 'orange' },
-        { name: '&#128524;', color: 'barbie pink' },
-        { name: '&#128525;', color: 'lilac' },
-        { name: '&#128526;', color: 'blood red' },
-        { name: '&#128527;', color: 'magenta' },
-        { name: '&#128528;', color: 'gold' },
-        { name: '&#128529;', color: 'silver' },
 
         { name: '&#128512;', color: 'red' },
         { name: '&#128513;', color: 'blue' },
@@ -50,20 +42,10 @@ export default function Game() {
         { name: '&#128517;', color: 'pink' },
         { name: '&#128518;', color: 'purple' },
         { name: '&#128519;', color: 'white' },
-        { name: '&#128520;', color: 'teal' },
-        { name: '&#128521;', color: 'beige' },
-        { name: '&#128522;', color: 'brown' },
-        { name: '&#128523;', color: 'orange' },
-        { name: '&#128524;', color: 'barbie pink' },
-        { name: '&#128525;', color: 'lilac' },
-        { name: '&#128526;', color: 'blood red' },
-        { name: '&#128527;', color: 'magenta' },
-        { name: '&#128528;', color: 'gold' },
-        { name: '&#128529;', color: 'silver' },
     ]);
 
     const declareWin = () => {
-        if (errors > 10) {
+        if (errors > 8) {
             setPlaying(false);
             setComparing(false);
             setGuessed([]);
@@ -82,14 +64,14 @@ export default function Game() {
             fetch(
                 route('leaderboard.store', {
                     name: auth.user.name,
-                    mode: 'hard',
+                    mode: 'medium',
                     score: timeElapsed,
                 }),
                 {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken, // Include the CSRF token here
+                        'X-CSRF-TOKEN': csrfToken ?? '',
                     },
                 },
             );
@@ -138,8 +120,8 @@ export default function Game() {
                 <div className="relative flex min-h-[100vh] flex-1 flex-col items-center justify-center overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                     {playing ? (
                         <>
-                            {/* <div>time elapsed: {timeElapsed}</div> */}
-                            <div className="grid w-[80%] grid-cols-6 gap-4">
+                            <div>time elapsed: {timeElapsed}</div>
+                            <div className="grid w-[80%] grid-cols-4 gap-4">
                                 {cards.map((card, index) => (
                                     <div
                                         key={index}
@@ -156,7 +138,7 @@ export default function Game() {
                                             }
                                         }}
                                         className={`relative flex h-[150px] w-full flex-col items-center justify-center rounded-xl bg-[#f7b733] p-4 shadow-md transition duration-300 ease-in-out hover:drop-shadow-[0_0_.5rem_#f7b733] ${
-                                            comparing && index === compared[0] ? '' : 'cursor-pointer'
+                                            comparing && index !== compared[0] ? '' : 'cursor-pointer'
                                         }`}
                                     >
                                         <div
