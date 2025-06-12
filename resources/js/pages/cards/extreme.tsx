@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'monster',
-        href: '/game/monster',
+        title: 'extreme',
+        href: '/game/extreme',
     },
 ];
 
@@ -148,7 +148,7 @@ export default function Game() {
             fetch(
                 route('leaderboard.store', {
                     name: auth.user.name,
-                    mode: 'monster',
+                    mode: 'extreme',
                     score: timeElapsed,
                 }),
                 {
@@ -254,8 +254,8 @@ export default function Game() {
                                 <Link href="/game/hard" prefetch>
                                     Hard
                                 </Link>
-                                <Link href="/game/monster" prefetch>
-                                    Monster
+                                <Link href="/game/extreme" prefetch>
+                                    Extreme
                                 </Link>
                             </div>
                             <button

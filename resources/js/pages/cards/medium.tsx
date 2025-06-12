@@ -170,8 +170,8 @@ export default function Game() {
                                 <Link href="/game/hard" prefetch>
                                     Hard
                                 </Link>
-                                <Link href="/game/monster" prefetch>
-                                    Monster
+                                <Link href="/game/extreme" prefetch>
+                                    Extreme
                                 </Link>
                             </div>
                             <button

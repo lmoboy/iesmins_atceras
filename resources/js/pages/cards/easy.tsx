@@ -43,6 +43,10 @@ export default function Game() {
         }
 
         if (guessed.length === cards.length) {
+            const endTime = new Date(Date.now());
+            const elapsedSeconds = (endTime.getTime() - startTime.getTime()) / 1000;
+            setTimeElapsed(elapsedSeconds);
+            setPlaying(false);
             setPlaying(false);
             setComparing(false);
             setGuessed([]);
@@ -71,7 +75,6 @@ export default function Game() {
     }, [guessed]);
 
     const compare = (c1: number, c2: number) => {
-        setTimeElapsed(Math.round((Date.now() - startTime.getTime()) / 1000));
         setTimeout(() => {
             setComparing(false);
             setCompared([-1, -1]);
@@ -84,11 +87,25 @@ export default function Game() {
         }
     };
 
+    useEffect(() => {
+        let timer: any;
+        if (playing) {
+            setStartTime(new Date(Date.now()));
+            setTimeElapsed(0);
+            setStatus('');
+            timer = setInterval(() => {
+                setTimeElapsed((prevTime) => prevTime + 1);
+            }, 1000);
+        } else {
+            clearInterval(timer);
+        }
+
+        return () => clearInterval(timer);
+    }, [playing]);
+
     const shuffle = () => {
         setPlaying(true);
         setStatus('');
-        setTimeElapsed(0);
-        setStartTime(new Date(Date.now()));
         const shuffledCards = [...cards];
         for (let i = shuffledCards.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -100,11 +117,11 @@ export default function Game() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Game" />
-            <Debug vars={{ auth }} />
+            <Debug vars={{ timeElapsed }} />
 
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 {status && <div className="text-center text-2xl font-bold">{status}</div>}
-                {status && <div className="text-center text-2xl font-bold">Withing {timeElapsed} seconds</div>}
+                {status && <div className="text-center text-2xl font-bold">Time: {timeElapsed}s</div>}
 
                 <div className="relative flex min-h-[100vh] flex-1 flex-col items-center justify-center overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                     {playing ? (
@@ -158,8 +175,8 @@ export default function Game() {
                                 <Link href="/game/hard" prefetch>
                                     Hard
                                 </Link>
-                                <Link href="/game/monster" prefetch>
-                                    Monster
+                                <Link href="/game/extreme" prefetch>
+                                    Extreme
                                 </Link>
                             </div>
                             <button

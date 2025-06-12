@@ -19,7 +19,7 @@ class LeaderboardFactory extends Factory
         return [
             'name' => $this->faker->name,
             'score' => random_int(5, 160),
-            'mode' => $this->faker->randomElement(['easy', 'medium', 'hard', 'monster'])
+            'mode' => $this->faker->randomElement(['easy', 'medium', 'hard', 'extreme'])
         ];
     }
 }

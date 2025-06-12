@@ -13,8 +13,8 @@ return new class extends Migration {
         Schema::create('leaderboards', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('mode', ['easy', 'medium', 'hard', 'monster']);
-            $table->integer('score');
+            $table->enum('mode', ['easy', 'medium', 'hard', 'extreme']);
+            $table->float('score');
             $table->timestamps();
         });
     }

@@ -37,7 +37,7 @@ export default function Leaderboard() {
                                 <option value="easy">Easy</option>
                                 <option value="medium">Medium</option>
                                 <option value="hard">Hard</option>
-                                <option value="monster">Monster</option>
+                                <option value="extreme">Extreme</option>
                             </select>
                         </div>
                         <ul className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">

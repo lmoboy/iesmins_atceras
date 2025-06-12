@@ -23,7 +23,7 @@ const mainNavItems: NavItem[] = [
 const typingNavItems: NavItem[] = [
     {
         title: 'Game',
-        href: '/typing',
+        href: '/typing/game',
         icon: Gamepad2,
     },
     {
