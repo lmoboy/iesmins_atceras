@@ -12,15 +12,22 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Game() {
-    const auth = usePage().props.auth;
-    const [difficulty, setDifficulty] = useState('easy');
+    const auth: any = usePage().props.auth;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
     const [startTime, setStartTime] = useState(new Date(Date.now()));
+    const [timeElapsed, setTimeElapsed] = useState(0);
+
+    const [calculatedWPM, setCalculatedWPM] = useState(0);
+    const [difficulty, setDifficulty] = useState(50);
+    const [difficultyText, setDifficultyText] = useState('Easy');
     const [curLetter, setCurLetter] = useState(0);
     const [playing, setPlaying] = useState(false);
-    const [timeElapsed, setTimeElapsed] = useState(0);
     const [status, setStatus] = useState('');
-    const [text, setText] = useState<Array<{ text: string; correct: string }>>(words(100));
-
+    const [text, setText] = useState<Array<{ text: string; correct: string }>>(words(10));
+    useEffect(() => {
+        setText(words(difficulty));
+    }, [difficulty]);
     const handleInput = (e: any) => {
         if (!playing) {
             return;
@@ -66,17 +73,29 @@ export default function Game() {
             }
         }
 
-        if (curLetter + 1 >= text.length && playing) {
-            const allTyped = text.every((char) => char.correct === 'green');
+        if (curLetter >= text.length - 1 && playing) {
+            setStatus('Game Over!');
+            setCalculatedWPM(Math.round(text.slice(0, curLetter).filter((char) => char.text === ' ').length / (timeElapsed / 60)));
+            setCurLetter(0);
+            const endTime = new Date(Date.now());
+            const elapsedSeconds = (endTime.getTime() - startTime.getTime()) / 1000;
+            setTimeElapsed(elapsedSeconds);
+            setPlaying(false);
 
-            if (allTyped && curLetter + 1 === text.length) {
-                setPlaying(false);
-                setStatus('Game Over!');
-                const endTime = new Date(Date.now());
-                const elapsedSeconds = (endTime.getTime() - startTime.getTime()) / 1000;
-                console.log(allTyped, curLetter + 1 === text.length);
-                setTimeElapsed(elapsedSeconds);
-            }
+            fetch(
+                route('typing.leaderboard.store', {
+                    name: auth.user.name,
+                    mode: difficultyText.toLowerCase(),
+                    score: timeElapsed,
+                }),
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken ?? '',
+                    },
+                },
+            );
         }
     };
     useEffect(() => {
@@ -109,38 +128,98 @@ export default function Game() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Game" />
-            {/* <Debug vars={{ errors }} /> */}
+            {/* <Debug vars={{}} /> */}
 
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                {status && <div className="text-center text-2xl font-bold">{status}</div>}
-                {status && <div className="text-center text-2xl font-bold">Within {timeElapsed} seconds</div>}
-
                 <div className="flex min-h-[100vh] flex-1 flex-col items-center justify-center overflow-hidden rounded-xl border border-sidebar-border/70 transition-all md:min-h-min dark:border-sidebar-border">
-                    <div className={`flex w-[50%] transition-all`} style={{ transform: `translateX(-${curLetter * 1.4}rem)` }}>
+                    {status && (
+                        <p className="absolute top-0 left-0 z-10 flex w-full items-center justify-center p-2 text-white">
+                            <span className="text-center text-2xl font-bold">{status}</span>
+                            <span className="text-2xl font-bold">Time: {timeElapsed}s</span>
+                            <span className="ml-4 text-2xl font-bold">Words: {difficulty}</span>
+                            <span className="ml-4 text-2xl font-bold">WPM: {calculatedWPM}</span>
+                            <span className="ml-4 text-2xl font-bold">
+                                Accuracy: {Math.round((text.filter((char) => char.correct === 'green').length / text.length) * 10000) / 100}%
+                            </span>
+                        </p>
+                    )}
+                    <div className="top-0 left-0 z-10 flex w-full items-center justify-center p-2 text-white">
+                        <span className="text-2xl font-bold">Difficulty: {difficultyText}</span>
+                    </div>
+                    <div
+                        style={{ transform: `translateX(-${curLetter * 1.4}rem)` }}
+                        className={playing ? `flex w-[50%] transition-all` : `flex w-full items-center justify-center`}
+                    >
                         {playing ? (
                             <>
                                 {text.map((char: { text: string; correct: string }, index: number) => (
                                     <div
                                         key={index}
-                                        className={`text-shadow-lg/30 text-shadow-white  text-5xl font-bold transition-all ${
+                                        className={`text-shadow-lg/30 text-shadow-white w-fit text-5xl font-bold transition-all ${
                                             char.correct === 'green' ? 'text-green-300' : char.correct === 'red' ? 'text-red-300' : 'text-gray-300'
-                                        } ${index === curLetter ? 'underline' : ''}`}
+                                        } ${index === curLetter ? 'underline' : ''} `}
                                         dangerouslySetInnerHTML={{ __html: `${char.text == ' ' ? '&nbsp;' : char.text}` }}
                                     ></div>
                                 ))}
                             </>
                         ) : (
-                            <>
-                                <div className="absolute top-0 flex w-fit flex-row gap-4">{/* <button onClick={setDifficulty}>Easy</button> */}</div>
+                            <div className="flex w-full flex-col items-center justify-center gap-4">
+                                <div className="flex flex-row gap-4">
+                                    <button
+                                        className={`rounded-lg border-2 border-gray-800 ${difficultyText == 'Easy' ? 'border-white' : ''} p-2 transition-all`}
+                                        onClick={() => {
+                                            setDifficulty(50);
+                                            setDifficultyText('Easy');
+                                        }}
+                                    >
+                                        Easy
+                                    </button>
+                                    <button
+                                        className={`rounded-lg border-2 border-gray-800 ${difficultyText == 'Medium' ? 'border-white' : ''} p-2 transition-all`}
+                                        onClick={() => {
+                                            setDifficulty(100);
+                                            setDifficultyText('Medium');
+                                        }}
+                                    >
+                                        Medium
+                                    </button>
+                                    <button
+                                        className={`rounded-lg border-2 border-gray-800 ${difficultyText == 'Hard' ? 'border-white' : ''} p-2 transition-all`}
+                                        onClick={() => {
+                                            setDifficulty(150);
+                                            setDifficultyText('Hard');
+                                        }}
+                                    >
+                                        Hard
+                                    </button>
+                                    <button
+                                        className={`rounded-lg border-2 border-gray-800 ${difficultyText == 'Extreme' ? 'border-white' : ''} p-2 transition-all`}
+                                        onClick={() => {
+                                            setDifficulty(300);
+                                            setDifficultyText('Extreme');
+                                        }}
+                                    >
+                                        Extreme
+                                    </button>
+                                    {/* <button
+                                        className={`rounded-lg border-2 border-gray-800 ${difficultyText == 'Dictionary' ? 'border-white' : ''} p-2 transition-all`}
+                                        onClick={() => {
+                                            setDifficulty(0);
+                                            setDifficultyText('Dictionary');
+                                        }}
+                                    >
+                                        Dictionary
+                                    </button> */}
+                                </div>
                                 <button
                                     onClick={() => {
                                         setPlaying(true);
                                     }}
-                                    className="relative flex h-[150px] w-[60%] cursor-pointer items-center justify-center rounded-xl bg-gradient-to-r from-[#f7b733] to-[#fc4a1a] p-4 shadow-md transition duration-1000 ease-in-out hover:scale-105"
+                                    className="flex h-[150px] w-[60%] cursor-pointer items-center justify-center rounded-xl bg-gradient-to-r from-[#f7b733] to-[#fc4a1a] p-4 shadow-md transition-all hover:scale-105"
                                 >
-                                    <div className="relative z-10 text-5xl font-bold text-white">START GAME</div>
+                                    <div className="z-10 text-5xl font-bold text-white">START GAME</div>
                                 </button>
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>

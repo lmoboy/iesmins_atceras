@@ -22,9 +22,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('game/hard', function () {
         return Inertia::render('cards/hard');
     })->name('game.hard');
-    Route::get('game/monster', function () {
-        return Inertia::render('cards/monster');
-    })->name('game.monster');
+    Route::get('game/extreme', function () {
+        return Inertia::render('cards/extreme');
+    })->name('game.extreme');
     Route::get('game/leaderboard', function () {
         return Inertia::render('cards/leaderboard');
     })->name('leaderboard');
@@ -36,14 +36,17 @@ Route::middleware(['auth'])->group(function () {
 
 
     //typing game routes
-    Route::get('typing', function () {
+    Route::get('typing/game', function () {
         return Inertia::render('typing/game');
     })->name('typing');
-
+    Route::get('typing/leaderboard', function () {
+        return Inertia::render('typing/leaderboard');
+    })->name('typing.leaderboard');
 
 
     //typing game api
-
+    Route::get('typing/leaderboard/{mode}', [leadearboardsController::class, 'typingMode'])->name('typing.leaderboard.index');
+    Route::post('typing/leaderboard/store', [leadearboardsController::class, 'typingStore'])->name('typing.leaderboard.store');
 
 });
 

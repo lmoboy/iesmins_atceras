@@ -42,7 +42,7 @@ export default function Welcome() {
                     <main className="flex w-full max-w-[335px] flex-col-reverse lg:max-w-4xl lg:flex-row">
                         <div className="flex w-full items-center justify-center lg:justify-start">
                             <div className="ml-6">
-                                <h1 className="animate-pulse text-[100px] leading-tight font-bold">Iesmiņš atcerās</h1>
+                                <h1 className="animate-pulse text-[100px]  leading-tight font-bold">Iesmiņš atcerās</h1>
                                 <p className="mt-2 text-[20px] text-gray-600 dark:text-gray-400">
                                     <span>This is a simple project website Sir Iesmiņš asked us to do for the remained of our classes.</span>
                                     <br />
@@ -69,7 +69,54 @@ export default function Welcome() {
                                             hard: Iesmiņš mode (110 IQ required)
                                         </span>
                                         <span className="rounded-sm bg-gradient-to-r from-[#ff8c00] to-[#ff3737] px-1.5 text-white">
-                                            monster: Raivo mode (150+ IQ required)
+                                            extreme: Raivo mode (150+ IQ required)
+                                        </span>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+                <div className="flex w-full items-center justify-center opacity-100 transition-opacity duration-750 lg:grow starting:opacity-0">
+                    <main className="flex w-full max-w-[335px] flex-col-reverse lg:max-w-4xl lg:flex-row">
+                        <div className="flex w-full items-center justify-center lg:justify-start">
+                            <div className="ml-6">
+                                <h1 className="animate-pulse text-[100px] leading-tight font-bold">Iesmiņš raksta</h1>
+                                <p className="mt-2 text-[20px] text-gray-600 dark:text-gray-400">
+                                    <span>
+                                        This is another simple game on the website Sir Iesmiņš gave us to do for the remained of our classes. (we only
+                                        pick one)
+                                    </span>
+                                    <br />
+                                    <br />
+
+                                    <span>
+                                        <span>
+                                            The game in here is a simple monketype type shit, see a word and write it, if the letter mathes it will
+                                            light up in some beautiful
+                                        </span>
+                                        <span className="text-green-300"> green</span>
+                                        <span> and if not,</span>
+                                        <span className="text-red-300"> red.</span>
+                                    </span>
+                                    <br />
+                                    <br />
+                                    <span>
+                                        Currently supporting of up to 4 difficulty modes, just like the previous ones but this time the amount of
+                                        words changes :0
+                                    </span>
+                                    <div className="flex h-fit w-fit flex-col gap-2 border p-2">
+                                        <span className="rounded-sm bg-gradient-to-r from-[#4caf50] to-[#8bc34a] px-1.5 text-white">
+                                            Easy: A lil baby man (50 words, perfect for beginners)
+                                        </span>
+                                        <span className="rounded-sm bg-gradient-to-r from-[#2196f3] to-[#03a9f4] px-1.5 text-white">
+                                            Medium: Average dota player (100 words, a decent challenge)
+                                        </span>
+                                        <span className="rounded-sm bg-gradient-to-r from-[#ff9800] to-[#ffc107] px-1.5 text-white">
+                                            Hard: League Of Legends veteran (150 words, for the brave ones)
+                                        </span>
+                                        <span className="rounded-sm bg-gradient-to-r from-[#f44336] to-[#e91e63] px-1.5 text-white">
+                                            Extreme: Pianist (300 words, only for legends)
                                         </span>
                                     </div>
                                 </p>

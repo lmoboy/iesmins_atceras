@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Leaderboard;
+use App\Models\TypingLeaderboard;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,5 +23,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Leaderboard::factory(10)->create();
+        TypingLeaderboard::factory(10)->create();
     }
 }

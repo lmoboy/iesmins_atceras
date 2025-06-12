@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('leaderboards', function (Blueprint $table) {
+        Schema::create('typing_leaderboards', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->enum('mode', ['easy', 'medium', 'hard', 'extreme']);
@@ -24,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('leaderboards');
+        Schema::dropIfExists('typing_leaderboards');
     }
 };
