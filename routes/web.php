@@ -48,6 +48,23 @@ Route::middleware(['auth'])->group(function () {
     Route::get('typing/leaderboard/{mode}', [leadearboardsController::class, 'typingMode'])->name('typing.leaderboard.index');
     Route::post('typing/leaderboard/store', [leadearboardsController::class, 'typingStore'])->name('typing.leaderboard.store');
 
+
+
+    //mines game routes
+    Route::get('mines/game', function () {
+        return Inertia::render('mines/game');
+    })->name('mines');
+    Route::get('mines/leaderboard', function () {
+        return Inertia::render('mines/leaderboard');
+    })->name('mines.leaderboard');
+    //mines game api
+    Route::get('mines/leaderboard/{mode}', [leadearboardsController::class, 'minesMode'])->name('mines.leaderboard.index');
+    Route::post('mines/leaderboard/store', [leadearboardsController::class, 'minesStore'])->name('mines.leaderboard.store');
+
+
+
+
+
 });
 
 require __DIR__ . '/settings.php';
