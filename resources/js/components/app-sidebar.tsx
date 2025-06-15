@@ -33,6 +33,19 @@ const typingNavItems: NavItem[] = [
     },
 ];
 
+const minesNavItems: NavItem[] = [
+    {
+        title: 'Game',
+        href: '/mines/game',
+        icon: Gamepad2,
+    },
+    {
+        title: 'Leaderboard',
+        href: '/mines/leaderboard',
+        icon: AlignEndHorizontal,
+    },
+];
+
 const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
@@ -64,6 +77,7 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavMain items={mainNavItems} label="Card game" />
                 <NavMain items={typingNavItems} label="Typing game" />
+                <NavMain items={minesNavItems} label="Mines game" />
             </SidebarContent>
 
             <SidebarFooter>

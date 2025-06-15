@@ -6,7 +6,7 @@ import words from './words.js';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'easy',
+        title: 'Typing',
         href: '/typing',
     },
 ];
@@ -143,9 +143,11 @@ export default function Game() {
                             </span>
                         </p>
                     )}
-                    <div className="top-0 left-0 z-10 flex w-full items-center justify-center p-2 text-white">
-                        <span className="text-2xl font-bold">Difficulty: {difficultyText}</span>
-                    </div>
+                    {!playing && (
+                        <div className="top-0 left-0 z-10 flex w-full items-center justify-center p-2 text-white">
+                            <span className="text-2xl font-bold">Difficulty: {difficultyText}</span>
+                        </div>
+                    )}
                     <div
                         style={{ transform: `translateX(-${curLetter * 1.4}rem)` }}
                         className={playing ? `flex w-[50%] transition-all` : `flex w-full items-center justify-center`}
@@ -155,7 +157,7 @@ export default function Game() {
                                 {text.map((char: { text: string; correct: string }, index: number) => (
                                     <div
                                         key={index}
-                                        className={`text-shadow-lg/30 text-shadow-white w-fit text-5xl font-bold transition-all ${
+                                        className={`text-shadow-lg/30 text-shadow-white w-fit text-5xl font-bold transition-all ${char.text == ' ' && char.correct === 'red' ? 'bg-red-300' : ''} ${
                                             char.correct === 'green' ? 'text-green-300' : char.correct === 'red' ? 'text-red-300' : 'text-gray-300'
                                         } ${index === curLetter ? 'underline' : ''} `}
                                         dangerouslySetInnerHTML={{ __html: `${char.text == ' ' ? '&nbsp;' : char.text}` }}
