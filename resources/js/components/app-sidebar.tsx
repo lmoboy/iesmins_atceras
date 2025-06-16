@@ -77,7 +77,7 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavMain items={mainNavItems} label="Card game" />
                 <NavMain items={typingNavItems} label="Typing game" />
-                <NavMain items={minesNavItems} label="Mines game" />
+                {/* <NavMain items={minesNavItems} label="Mines game" /> */}
             </SidebarContent>
 
             <SidebarFooter>
