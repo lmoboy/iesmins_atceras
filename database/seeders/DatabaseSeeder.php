@@ -19,9 +19,10 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'nigger@nigger.nigger',
-            'email' => 'nigger@nigger.nigger',
-            'password' => bcrypt('nigger@nigger.nigger')
+            'name' => 'admin@admin.admin',
+            'email' => 'admin@admin.admin',
+            'password' => bcrypt(
+                'admin@admin.admin')
         ]);
 
         Leaderboard::factory(10)->create();
